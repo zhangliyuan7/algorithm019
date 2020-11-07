@@ -32,3 +32,20 @@ func HasCycle2(head *ListNode) bool {
 	}
 	return false
 }
+
+
+func CycleHas ( n *ListNode)bool{
+	if n.Next==nil||n.Next.Next==nil{
+		return false
+	}
+	fast:=n.Next.Next
+	slow:=n.Next
+	for fast!=nil&&fast.Next!=nil{
+		if fast == slow {
+			return true
+		}
+		fast=fast.Next.Next
+		slow=slow.Next
+	}
+	return false
+}

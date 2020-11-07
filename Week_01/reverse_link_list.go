@@ -30,3 +30,14 @@ func ReverseLinkedList(head *ListNode)*ListNode{
 	}
 	return pre
 }
+
+func ReverseLinkedListA(head *ListNode)*ListNode {
+	var n = &ListNode{}
+	for head!=nil{
+		tail :=head.Next
+		head.Next=n
+		n=head
+		head=tail
+	}
+	return n
+}

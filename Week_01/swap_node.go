@@ -72,3 +72,18 @@ func SwapPairs3(head *ListNode) *ListNode {
 	return pre.Next
 }
 
+func SwapPairs4(head *ListNode) *ListNode {
+	var pre = &ListNode{0,head}
+	var tmp = pre
+	for tmp!=nil{
+		start:=tmp.Next
+		end:=tmp.Next.Next
+		start.Next=end.Next
+		end.Next=start
+		tmp.Next=end
+		tmp=start
+	}
+	return pre.Next
+}
+
+

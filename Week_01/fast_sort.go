@@ -19,7 +19,7 @@ func FastSortA(nums []int){
 			move+=1
 		}
 	}
-	nums[left]=mid
+	//nums[left]=mid  // useless ,just delete
 
 	FastSortA(nums[0:left])
 	FastSortA(nums[left+1:])

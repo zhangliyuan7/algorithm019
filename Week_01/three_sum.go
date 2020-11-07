@@ -242,3 +242,65 @@ func ThreeSumB(nums []int) [][]int {
 	}
 	return result
 }
+
+func ThreeSumC(nums []int)[][]int{
+	if len(nums)<3{
+		return nil
+	}
+	var result = [][]int{}
+	quickSort(nums)
+	for i:=0;i<len(nums);i++{
+		if nums[i]>0{
+			return result
+		}
+		if i>0&&nums[i]==nums[i-1]{
+			continue
+		}
+		var j = i+1
+		k := len(nums)-1
+		for j<k {
+			sum :=nums[i]+nums[j]+nums[k]
+			if sum==0{
+				result=append(result,[]int{
+					i,j,k,
+				})
+				for j<k&&nums[k+1]==nums[k]{
+					k++
+				}
+				for k>j&&nums[j]==nums[j-1]{
+					j--
+				}
+				k++
+				j--
+			}
+			if sum>0{
+				k--
+			}
+			if sum <0{
+				j++
+			}
+		}
+	}
+	return result
+}
+
+
+func quickSort(nums []int){
+	var left,right int
+	left=0
+	right=len(nums)-1
+	i := 1
+	mid := nums[0]
+	for left<right{
+		if nums[i]>mid {
+			nums[right], nums[i] = nums[i], nums[right]
+			right--
+		}else{
+			nums[left],nums[i] = nums[i],nums[left]
+			left+=1
+			i++
+		}
+	}
+	quickSort(nums[:left])
+	quickSort(nums[left+1:])
+}
