@@ -6,7 +6,7 @@ package practice
 //good !!!!
 func ReverseNumber(x int) int {
 	var res int
-	var maxInt =2147483647
+	var maxInt = 2147483647
 	var minInt = -2147483648
 	for ;x!=0;x=x/10{
 		last :=x%10
