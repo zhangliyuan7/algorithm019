@@ -52,6 +52,13 @@ func (stack *Stack) Len() int {
 func (stack *Stack) Empty() bool {
 	return stack.Len() == 0
 }
+func (stack *Stack) Top() interface{} {
+	if e := stack.list.Back(); e != nil {
+		return e.Value
+	}
+	return nil
+}
+
 
 //前序遍历.  利用栈的特性，先将右子树进行压栈，再将左子树进行压栈
 func (root *Node) PreTravesal() {
