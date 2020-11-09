@@ -72,3 +72,27 @@ func FastSortB(nums []int){
 	FastSortA(nums[0:left])
 	FastSortA(nums[left+1:])
 }
+
+func QuickSort(nums []int ){
+	if len(nums)<=1{
+		return
+	}
+	left:=0
+	right:=len(nums)-1
+	mid:=nums[left]
+	i:=1
+	for left<right{
+		if nums[i]>mid{
+			nums[i],nums[right]=nums[right],nums[i]
+			right--
+		}
+		if nums[i]<=mid{
+			nums[i],nums[left]=nums[left],nums[i]
+			i++
+			left++
+		}
+		quickSort(nums[:left])
+		quickSort(nums[left+1:])
+	}
+
+}

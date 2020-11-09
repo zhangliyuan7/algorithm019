@@ -59,7 +59,57 @@ package practice
  * param_4 := obj.GetMin();
  */
 
-// use list
+//// use list
+//type MinStack struct {
+//	minList    []int
+//	normalList []int
+//}
+//
+///** initialize your data structure here. */
+//func Constructor() MinStack {
+//	return MinStack{}
+//}
+//
+//func (this *MinStack) Push(x int) {
+//	if len(this.normalList) == 0 {
+//		this.normalList = append(this.normalList, x)
+//		this.minList = append(this.minList, x)
+//		return
+//	}
+//	if this.minList[len(this.minList)-1] <= x {
+//		this.minList = append(this.minList, this.minList[len(this.minList)-1])
+//	}
+//	if this.minList[len(this.minList)-1] > x {
+//		this.minList = append(this.minList, x)
+//	}
+//	this.normalList = append(this.normalList, x)
+//}
+//
+//func (this *MinStack) Pop() {
+//	if len(this.normalList) == 0 {
+//		return
+//	}
+//	this.minList = this.minList[:len(this.minList)-1]
+//	this.normalList = this.normalList[:len(this.normalList)-1]
+//}
+//
+//func (this *MinStack) Top() int {
+//	if len(this.normalList) == 0 {
+//		return -1
+//	}
+//	return this.normalList[len(this.normalList)-1]
+//}
+//
+//func (this *MinStack) GetMin() int {
+//	if len(this.minList) == 0 {
+//		return -1
+//	}
+//	return this.minList[len(this.minList)-1]
+//}
+//
+//
+
+
 type MinStack struct {
 	minList    []int
 	normalList []int
@@ -70,39 +120,29 @@ func Constructor() MinStack {
 	return MinStack{}
 }
 
-func (this *MinStack) Push(x int) {
-	if len(this.normalList) == 0 {
-		this.normalList = append(this.normalList, x)
-		this.minList = append(this.minList, x)
+func (m *MinStack) Push(x int) {
+	if len(m.minList)==0{
+		m.minList=append(m.minList,x)
+		m.normalList=append(m.normalList,x)
 		return
 	}
-	if this.minList[len(this.minList)-1] <= x {
-		this.minList = append(this.minList, this.minList[len(this.minList)-1])
+	if x> m.minList[len(m.minList)-1]{
+		m.minList=append(m.minList,m.minList[len(m.minList)-1])
+	}else{
+		m.minList=append(m.minList,x)
 	}
-	if this.minList[len(this.minList)-1] > x {
-		this.minList = append(this.minList, x)
-	}
-	this.normalList = append(this.normalList, x)
+	m.normalList=append(m.normalList,x)
 }
 
-func (this *MinStack) Pop() {
-	if len(this.normalList) == 0 {
-		return
-	}
-	this.minList = this.minList[:len(this.minList)-1]
-	this.normalList = this.normalList[:len(this.normalList)-1]
+func (m *MinStack) Pop() {
+	m.normalList=m.normalList[:len(m.normalList)-1]
+	m.minList=m.minList[:len(m.minList)-1]
 }
 
-func (this *MinStack) Top() int {
-	if len(this.normalList) == 0 {
-		return -1
-	}
-	return this.normalList[len(this.normalList)-1]
+func (m *MinStack) Top() int {
+	return m.normalList[len(m.normalList)-1]
 }
 
-func (this *MinStack) GetMin() int {
-	if len(this.minList) == 0 {
-		return -1
-	}
-	return this.minList[len(this.minList)-1]
+func (m *MinStack) GetMin() int {
+	return m.minList[len(m.minList)-1]
 }

@@ -286,6 +286,7 @@ func ThreeSumC(nums []int)[][]int{
 
 
 func quickSort(nums []int){
+
 	var left,right int
 	left=0
 	right=len(nums)-1
@@ -303,4 +304,43 @@ func quickSort(nums []int){
 	}
 	quickSort(nums[:left])
 	quickSort(nums[left+1:])
+}
+
+func ThreeSumD(nums []int )[][]int{
+	if len(nums)<3{
+		return nil
+	}
+	var r =[][]int{}
+	sort.Ints(nums)
+	for i:=0;i<len(nums);i++{
+		if nums[i]>0{
+			return r
+		}
+		if i>0&&nums[i]==nums[i-1]{
+			continue
+		}
+		j:=i+1
+		k:=len(nums)-1
+		for j<k{
+			sum:=nums[i]+nums[j]+nums[k]
+			if sum==0{
+				r=append(r,[]int{nums[i],nums[j],nums[k]})
+				if j<k&&nums[j]==nums[j+1] {
+					j++
+				}
+				if k>j&&nums[k]==nums[k-1]{
+					k--
+				}
+				j++
+				k--
+			}
+			if sum<0{
+				j++
+			}
+			if sum>0{
+				k--
+			}
+		}
+	}
+	return r
 }
