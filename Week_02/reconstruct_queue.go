@@ -1,4 +1,4 @@
-package w3
+package Week_02
 
 import (
 	"sort"

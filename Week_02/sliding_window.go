@@ -1,4 +1,4 @@
-package w2
+package Week_02
 
 //双端队列 写法最简单
 func maxSlidingWindowC(nums []int, k int) []int {

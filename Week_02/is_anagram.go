@@ -1,4 +1,4 @@
-package w2
+package Week_02
 
 //hash baoli : rubbish 20ms
 func isAnagram(s string, t string) bool {
