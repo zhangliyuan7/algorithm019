@@ -60,7 +60,7 @@
    		    return [][]int{nums}
    	    }
    	    for i:=0;i<len(nums);i++{
-   		    var others []int
+   		    var others []int  
    		    others=append(others,nums[:i]...)
    		    others=append(others,nums[i+1:]...)
    		    tmpR:=Permute(others)
@@ -71,4 +71,30 @@
    	    }
    	    return r
    }
+```
+
+##### 完全二叉树的节点数
+```
+    1 > bfs,dfs,前中后序都可以，暴力法
+    2 > 二分法，每次判断左子树和右子树的最左深度，所以左右子树分离时，左右两个子树中，一定有一边子树是完全二叉树
+            1.如果左右深度相同，因为是完全二叉树，那么左边一定是满二叉树
+              左子树是完全二叉树，所以个数直接可以计算(1<<左子树深度)-1（即2的n次方-1） ,即16-1
+              右子树一定是不一定完全的子树，所以递归右子树，计算数量
+            2.如果左右深度不同，因为是完全二叉树，那么左子树一定是比右子树深度深
+              那么左子树一定是不一定完全的子树，右子树一定完全，所以
+              递归左子树，求数量，加上完全右子树数量（1<<右子树深度)-1（即2的n次方-1）
+            3.因为每层递归，都是以子树为满数量计算，所以子树的父节点是没有计算到其中的，这个时候需要函数每层层级结果+1
+        所以，二分法最终结果为：
+              若left深度==right深度 return calculate(root.right)+(1<<left)-1 +1(这是当前层的根节点)
+              若left深度!=right深度 return calculate(root.left)+(1<<right)-1 +1(当前层root节点)
+```
+
+##### all sort visit b-tree
+```
+https://medium.com/@houzier.saurav/dfs-and-bfs-golang-d5818ec690d3
+```
+
+##### 二叉树层级遍历
+```
+   BFS遍历，每次取出queue中所有元素，将取出的val([]int)append到结果集，最后塞入当前层的所有left，right到干净的queue
 ```
