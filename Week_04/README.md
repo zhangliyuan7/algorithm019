@@ -13,8 +13,8 @@
     func dfs_recursion(root *Node){
         if root==nil {return }
         for {
-            root.visited
-            root.add(visited)
+            root.view()
+            visited.add(root)
             dfs(root.left)
             dfs(root.right)
         }
@@ -24,11 +24,10 @@
         var visited
         if visited||root==nil{return}
         for {
-            if root!=nil{
+            for root!=nil{
                 root.visited
                 s.add(root.left)
                 root=root.left
-                continue
             }
             if s!=nil{
                 root=s.pop
@@ -37,6 +36,28 @@
             }
         }
     }
+    n-tree dfs:
+    func dfs(node,visited){
+        if node in visited {return }
+        visited.add(node)
+        for next_node :=range  node.children(){
+            if next_node not in visited{
+                dfs(next_node,visited)
+            }
+        }
+    }
+    func dfs(node){
+        if node==nil{return }
+        visited,stack=[]int{} []int{}
+        for stack.len!=0{
+            node=stack.top
+            visited.add(node)
+            process(node)
+            nodes=generateRelatedNodes(node)
+            stack.push(nodes)
+        }
+    }
+
     广度优先template:
     func bfs(root *Node){
         var q queue
@@ -186,5 +207,64 @@ https://medium.com/@houzier.saurav/dfs-and-bfs-golang-d5818ec690d3
     ```
 ##### no279 完全平方数
     ```
+        此题动态规划，dp[i]=min(dp[i-1]+1,dp[i-j*j]+1...)
+        重点：问题是这个公式不知道为什么会是这样
+        如果知道公式就比较好做了，使用一个数组 一直存储对应节点值，用公式推导就行了
+        代码如下：
+        func numSquares(n int) int {
+        	dp := make([]int, n+1)
+        	for i := 1; i <= n; i++ {
+        		dp[i] = i
+        		for j := 1; i-j*j >= 0; j++ {
+        			dp[i] = min(dp[i], dp[i-j*j]+1)
+        		}
+        	}
+        	return dp[n]
+        }
+        拉格朗日的四平方数定理和三平方数定理有点nb，不懂，但是不妨碍我记录一下～～
+        四平方数：每个数字都可以表示为不超过四个完全平方数的和，普适性需要最少4个完全平方数的和，特殊数字可以只有一个，即完全平方数
+        三平方数：n%8==7,则n至少需要4个完全平方数求和
+        //拉格朗日 四平方数 和三平方数定理解法
+        func numSquaresMath(n int) int {
+        	sqrt := int(math.Sqrt(float64(n)))
+        	if sqrt * sqrt == n {
+        		return 1
+        	}
         
+        	for n % 4 == 0 {
+        		n /= 4
+        	}
+        	if n % 8 == 7 {
+        		return 4
+        	}
+        
+        	for i := 0; i * i < n; i++ {
+        		s := int(math.Sqrt(float64(n-i*i)))
+        		if s * s == n - i * i {
+        			return 2
+        		}
+        	}
+        	return 3
+        }
+
+    ```
+##### 454 四数相加
+    ```
+    四个数组中的数字组成的和为零的组合有多少
+    使用map存储A，B，C，D四个数组的其中二个数组的所有值的sum及其个数
+    for a:=range A{
+        for b:=range B{
+            map[a+b]++
+        }
+    }
+    迭代C+D 找到map中C+D的相反数，把相反数的数量加入到结果集中
+    for c:=range C{
+        for d:=range D{
+            r+=map[-(c+d)]
+        }
+    }
+    return r
+    直接加map中的值是因为map中记录的count也是A，B中不同索引的和，类似全排列思想
+    所以可以直接加，不用担心重复，因为循环保证了不会重复索引位置
+    此题标注标签为二分法，没看出来哪儿二分了，A+B=-(C+D)?
     ```
