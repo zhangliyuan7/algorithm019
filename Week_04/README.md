@@ -207,6 +207,9 @@ https://medium.com/@houzier.saurav/dfs-and-bfs-golang-d5818ec690d3
     ```
 ##### no279 完全平方数
     ```
+        仔细想 公式是对的，即一个完全平方数+剩余部分n-k这个值的最少构成+1（这个1即为完全平方数k占的位）
+        numSquares(n)=min(numSquares(n-k) + 1) ∀k∈square numbers
+    
         此题动态规划，dp[i]=min(dp[i-1]+1,dp[i-j*j]+1...)
         重点：问题是这个公式不知道为什么会是这样
         如果知道公式就比较好做了，使用一个数组 一直存储对应节点值，用公式推导就行了
