@@ -2,7 +2,7 @@ package practice
 
 import "math"
 
-func  maxArea(height []int) int {
+func maxArea(height []int) int {
 	max:=0
 	left := 0
 	right :=len(height)-1

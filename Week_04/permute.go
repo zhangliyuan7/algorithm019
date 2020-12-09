@@ -17,3 +17,31 @@ func Permute(nums []int) [][]int {
 	}
 	return r
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+func permute(nums []int)[][]int{
+	var r [][]int
+	for i:=0;i<len(nums);i++{
+		nextr:=[]int{}
+		nextr=append(nextr,nums[:i]...)
+		nextr=append(nextr,nums[i+1:]...)
+		tmpr:=permute(nextr)
+		for i:=range tmpr{
+			tmpr[i]=append(tmpr[i],nums[i])
+		}
+		r=append(r,tmpr...)
+	}
+	return r
+
+}
