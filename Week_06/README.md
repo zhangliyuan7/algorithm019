@@ -280,7 +280,27 @@
             }
         }
         return dp[amount]即可
-    
+    better one :
+    func CoinChangeT1(coins []int, amount int) int {
+    	var dp =make([]int,amount+1)
+    	dp[0]=0
+    	for i:=1;i<=amount;i++{
+    		dp[i]=-1
+    		for _,k:=range coins{
+    			// 硬币数大于amount或者上一个硬币无法转化的amount，跳过
+    			if i-k<0||dp[i-k]==-1{
+    				continue
+    			}
+    			//记录硬币可转化个数
+    			count:=dp[i-k]+1
+    			//如果非首次，也不是最小值则dp[i]重新赋值
+    			if dp[i]!=-1||dp[i]>count{
+    				dp[i]=count
+    			}
+    		}
+    	}
+    	return dp[amount]
+    }
     ```
 ##### 三角形最小路径之和 120
     ```

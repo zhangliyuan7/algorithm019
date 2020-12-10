@@ -41,3 +41,30 @@ func CoinChange(coins []int, amount int) int {
 	}
 	return dp[len(dp)-1]
 }
+
+func CoinChangeT1(coins []int, amount int) int {
+	var dp =make([]int,amount+1)
+	dp[0]=0
+	for i:=1;i<=amount;i++{
+		dp[i]=-1
+		for _,k:=range coins{
+			//
+			if i-k<0||dp[i-k]==-1{
+				continue
+			}
+			count:=dp[i-k]+1
+			if dp[i]!=-1||dp[i]>count{
+				dp[i]=count
+			}
+		}
+	}
+	return dp[amount]
+}
+
+
+
+
+
+
+
+

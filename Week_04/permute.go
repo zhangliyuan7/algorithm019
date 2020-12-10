@@ -17,19 +17,6 @@ func Permute(nums []int) [][]int {
 	}
 	return r
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 func permute(nums []int)[][]int{
 	var r [][]int
 	for i:=0;i<len(nums);i++{
