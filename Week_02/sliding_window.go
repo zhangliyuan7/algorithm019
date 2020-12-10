@@ -206,3 +206,46 @@ func pop(a []int,n int )[]int{
 func front(a []int )int {
 	return a[0]
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+func MaxSlidingWindowD(nums []int, k int) []int {
+	var maxlist []int
+	s:=[]int{}
+	for i:=0;i<len(nums);i++{
+		if i<k{
+			s=push2(s,nums[i])
+		}else{
+			maxlist=append(maxlist,s[0])
+			if s[0]==nums[i-k]{
+				s=s[1:]
+			}
+			s=push2(s,nums[i])
+		}
+	}
+	maxlist=append(maxlist,s[0])
+	return maxlist
+}
+
+func push2(l []int, n int )[]int{
+	i:=len(l)-1
+	for ;i>=0;i--{
+		if l[i]>=n{
+			break
+		}
+	}
+	l=l[0:i+1]
+	l=append(l,n)
+	return l
+}
