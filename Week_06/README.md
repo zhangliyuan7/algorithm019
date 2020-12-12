@@ -399,3 +399,43 @@
         }return r win 
         else {return d win}
     ```
+##### 摆动序列 376
+    ```
+        递推要分开两种情况，一种是1，3，2，4这种的上升摆动序列 另一种是 4，1，3，2这样的下降摆动序列 
+        当走到第i个位置时，要判断第i-1 到第i 是上升还是下降
+        1 如果i>i-1 是上升 那么从下降序列转换过来将是必然合法的 所以down+=1,上升序列转换非法，
+            此时，i的上升序列（下降转化/延长上升）就变为max（up，down+1）i的下降序列长度保持不变
+            1 上升序列延续 up i = up i-1
+            2 下降序列转化 up i = down i-1 +1
+            取大者 up i = max（up i-1 ，down i-1 +1）
+        2 而当i<i-1 那么i-1 到i 即为下降序列，所以两种可能 ：
+            1 下降序列延续 即 down i= down i-1
+            2 由上升序列转化 down i= up i-1 +1 
+            取大者 down i = max（down i-1 ， up i-1 +1）
+        当i==i-1时，延长up 和down 
+        
+        数组版代码比较容易看出思路：
+            func wiggleMaxLength(nums []int) int {
+            	length:=len(nums)
+            	if length<2{
+            		return length
+            	}
+            	up,down :=make([]int,len(nums)),make([]int,len(nums))
+            	up[0]=1
+            	down[0]=1
+            	for i:=1;i<len(nums);i++{
+            		if nums[i]>nums[i-1]{
+            			up[i]=max376(up[i-1],down[i-1]+1)
+            			down[i]=down[i-1]
+            		}else if nums[i]<nums[i-1]{
+            			down[i]=max376(down[i-1],up[i-1]+1)
+            			up[i]=up[i-1]
+            		}else{
+            			up[i]=up[i-1]
+            			down[i]=down[i-1]
+            		}
+            	}
+            	return max376(up[length-1],down[length-1])
+            }
+        
+    ```
