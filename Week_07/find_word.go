@@ -144,3 +144,67 @@ func buildTrieTree(words []string)*trieNode{
 	}
 	return &root
 }
+
+type Trie struct {
+	childs      [26]*Trie
+	val         string
+	isWord       bool
+}
+
+var (
+	dx []int = []int{1,-1,0,0}
+	dy []int = []int{0,0,1,-1}
+)
+
+func findWords2(board [][]byte, words []string) []string {
+
+	root := &Trie{}
+	for _, word := range words {
+		root.Insert(word)
+	}
+
+	res := []string{}
+	var dfs func(i, j int, cur *Trie)
+	dfs = func(i, j int, cur *Trie) {
+		if i < 0 || i > len(board)-1 || j < 0 || j > len(board[0])-1 || board[i][j]== '#'{
+			return
+		}
+		temp := board[i][j]
+		board[i][j] = '#'
+		c := int(temp-'a')
+		if cur.childs[c] != nil {
+			cur = cur.childs[c]
+			if cur.isWord {
+				res = append(res, cur.val)
+				cur.isWord = false
+			}
+			for idx := range dx {
+				tx, ty := i + dx[idx], j + dy[idx]
+				dfs(tx, ty, cur)
+			}
+		}
+		board[i][j] = temp
+	}
+
+	for i := range board {
+		for j := range board[0] {
+			dfs(i, j, root)
+		}
+	}
+
+	return res
+}
+
+func (this *Trie) Insert(word string) {
+	cur := this
+	for i := range word {
+		c := int(word[i]-'a')
+		if cur.childs[c] == nil {
+			cur.childs[c] = &Trie{}
+		}
+		cur = cur.childs[c]
+	}
+
+	cur.val = word
+	cur.isWord = true
+}
