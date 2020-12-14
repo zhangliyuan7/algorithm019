@@ -13,6 +13,7 @@ func MinArray1(numbers []int) int {
 	}
 	return numbers[left]
 }
+
 //erfen
 func MinArray(numbers []int) int {
 	left,right := 0,len(numbers)-1
