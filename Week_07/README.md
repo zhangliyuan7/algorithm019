@@ -136,3 +136,36 @@
             	return &root
             }
     ```
+##### 并查集 
+    ```
+        通常解决配对，或者是否在同一个群组，或者群组合并等功能
+        通常的初始化方式： parents[i]=i
+        python template :
+            def init (P):
+                #for i=0..n: p[i]=i
+                p=[i for i in range n]
+            def union (self,p,i,j):
+                p1=self.parents(p,j)
+                p2=self.parents(p,i)
+                p[p1]=p2
+            def parents(self ,p,i ):
+                root=i
+                while p[root]!=root:
+                    root=p[root]
+                while p[i]!=i: //路径压缩
+                    x=i;
+                    i=p[i];
+                    p[x]=root
+                return root
+    ```
+##### 朋友圈 547
+    ```
+        resolve way 1:
+            循环，if m[i][j]==1 && i!=j ,dfs (sign visited)
+        resolve way 2 :
+            创建并查集，for i：=range m {
+                parents[i]=i
+            }
+            并查集，当m[i][j]==1 && i!=j 则合并并查集
+            最后迭代parents 统计parents[i]== i 的个数即可
+    ```

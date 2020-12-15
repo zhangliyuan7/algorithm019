@@ -145,8 +145,8 @@ func buildTrieTree(words []string)*trieNode{
 	return &root
 }
 
-type Trie struct {
-	childs      [26]*Trie
+type Trie2 struct {
+	childs      [26]*Trie2
 	val         string
 	isWord       bool
 }
@@ -158,14 +158,14 @@ var (
 
 func findWords2(board [][]byte, words []string) []string {
 
-	root := &Trie{}
+	root := &Trie2{}
 	for _, word := range words {
 		root.Insert(word)
 	}
 
 	res := []string{}
-	var dfs func(i, j int, cur *Trie)
-	dfs = func(i, j int, cur *Trie) {
+	var dfs func(i, j int, cur *Trie2)
+	dfs = func(i, j int, cur *Trie2) {
 		if i < 0 || i > len(board)-1 || j < 0 || j > len(board[0])-1 || board[i][j]== '#'{
 			return
 		}
@@ -195,12 +195,12 @@ func findWords2(board [][]byte, words []string) []string {
 	return res
 }
 
-func (this *Trie) Insert(word string) {
+func (this *Trie2) Insert(word string) {
 	cur := this
 	for i := range word {
 		c := int(word[i]-'a')
 		if cur.childs[c] == nil {
-			cur.childs[c] = &Trie{}
+			cur.childs[c] = &Trie2{}
 		}
 		cur = cur.childs[c]
 	}
