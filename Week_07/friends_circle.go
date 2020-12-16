@@ -33,5 +33,6 @@ func searchParents(p *[]int,i int )int {
 	for (*p)[r]!=r{
 		r=(*p)[r]
 	}
+	(*p)[i]=r
 	return r
 }
