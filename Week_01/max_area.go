@@ -2,6 +2,8 @@ package practice
 
 import "math"
 
+
+//两边夹逼
 func maxArea(height []int) int {
 	max:=0
 	left := 0

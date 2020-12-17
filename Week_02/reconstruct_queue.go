@@ -4,7 +4,7 @@ import (
 	"sort"
 )
 
-//
+// 406 身高排序
 func ReconstructQueue(people [][]int) [][]int {
 	sort.Slice(people,func(i,j int )bool{
 		if people[i][0]==people[j][0]{
