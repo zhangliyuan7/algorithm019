@@ -64,3 +64,72 @@ func zeroIndex(s string)int{
 	}
 	return 0
 }
+
+
+
+
+
+
+
+
+
+
+
+
+//
+func SlidingPuzzleB(board [][]int) int {
+	move:=make(map[int][]int)
+	move[0]=[]int{1,3}
+	move[1]=[]int{0,2,4}
+	move[2]=[]int{1,5}
+	move[3]=[]int{0,4}
+	move[4]=[]int{1,3,5}
+	move[5]=[]int{2,4}
+	end:="123450"
+	start:=""
+	for i:=range board{
+		for j:=range board[i]{
+			start+=fmt.Sprintf("%d",board[i][j])
+		}
+	}
+	if start==end{
+		return 0
+	}
+	startQ:=make(map[string]bool)
+	endQ:=make(map[string]bool)
+	count:=1
+	startQ[start]=true
+	endQ[end]=true
+	visited:=make(map[string]bool)
+	for len(startQ)!=0{
+		tmpQ:=make(map[string]bool)
+		for st:=range startQ{
+			zeroindex:=getIndexOfString(st)
+			for _,k:=range move[zeroindex]{
+				stbyte:=[]byte(st)
+				stbyte[k],stbyte[zeroindex]=stbyte[zeroindex],stbyte[k]
+				if _,ok:=endQ[string(stbyte)];ok{
+					return count
+				}
+				if _,ok:=visited[string(stbyte)];!ok{
+					tmpQ[string(stbyte)]=true
+					visited[string(stbyte)]=true
+				}
+			}
+		}
+		startQ=tmpQ
+		if len(startQ)<len(endQ){
+			startQ,endQ=endQ,startQ
+		}
+		count++
+	}
+	return -1
+}
+func getIndexOfString(r string)int{
+	for i,c:=range r{
+		if string(c)=="0"{
+			return i
+		}
+	}
+	return 0
+}

@@ -6,5 +6,5 @@ import (
 )
 
 func TestSlidingPuzzle(t *testing.T) {
-	fmt.Println(SlidingPuzzle([][]int{{1,2,3},{5,4,0}}))
+	fmt.Println(SlidingPuzzleB([][]int{{1,2,3},{5,4,0}}))
 }
