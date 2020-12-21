@@ -21,3 +21,40 @@ func ReverseNumber(x int) int {
 	return res
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+func reverseNumber(n int )int {
+	var r  int
+	var maxint = 2147483647
+	var minint = -2147483648
+	for ;n!=0;n=n/10{
+		last:=n%10
+		if r>maxint/10||r==maxint&&last>7{
+			return 0
+		}
+		if r<minint/10||r==minint&&last< -8{
+			return 0
+		}
+		r=r*10+last
+	}
+	return r
+}
