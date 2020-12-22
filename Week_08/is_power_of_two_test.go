@@ -19,3 +19,8 @@ func TestC(t *testing.T){
 	n:=uint32(11001)
 	fmt.Println(uint32(n>>3))
 }
+
+func TestD(t *testing.T){
+	n:=" | "
+	fmt.Println(len(n))
+}
