@@ -84,4 +84,89 @@
         
         类似页面置换算法（LFU 最近访问频次最少元素）
     ```
+##### 146 LRU缓存
+    ```
+        movetohead操作和movethetail操作 千万注意 将前后链接好，因为是双向链表，一定要两个方向都链接一次
+        包括新增节点，一定要将head.next 和当前新增的node 和head链接好
+        head.next.pre=node
+        node.next=head.next
+        head.next=node
+        node.pre=head
+        删除时 也是同理 另外，要保留两个标志节点，head和tail ，不要替换掉
+        type LRUCache struct {
+        	cap  int
+        	length int
+        	hashMap map[int]*dlinklist
+        	head *dlinklist
+        	tail *dlinklist
+        }
+        func Constructor(capacity int) LRUCache {
+        	head:=dlinklist{pre:nil,next:nil}
+        	tail:=dlinklist{pre:nil,next:nil}
+        	head.next=&tail
+        	tail.pre=&head
+        	return LRUCache{
+        		cap:capacity,
+        		length:0,
+        		hashMap:make(map[int]*dlinklist),
+        		head:&head,
+        		tail:&tail,
+        	}
+        }
+        
+        type dlinklist struct{
+        	pre *dlinklist
+        	next  *dlinklist
+        	key int
+        	value int
+        }
+        func (this *LRUCache) Get(key int) int {
+        	if v,ok:=this.hashMap[key];ok{
+        		this.moveToHead(v)
+        		return v.value
+        	}
+        	return -1
+        }
+        
+        func (this *LRUCache) Put(key int, value int)  {
+        	if v,ok:=this.hashMap[key];ok{
+        		v.value=value
+        		this.moveToHead(v)
+        		return
+        	}
+        	if this.cap==this.length{
+        		this.removeTail()
+        	}
+        	node:=dlinklist{
+        		pre:this.head,
+        		next:this.head.next,
+        		key:key,
+        		value:value,
+        	}
+        	this.head.next.pre=&node
+        	this.head.next=&node
+        	this.hashMap[key]=&node
+        	this.length++
+        }
+        func (this *LRUCache)moveToHead(d *dlinklist){
+        	this.removeNode(d)
+        	d.next=this.head.next
+        	this.head.next.pre=d
+        	d.pre=this.head
+        	this.head.next=d
+        }
+        
+        func (this *LRUCache)removeTail(){
+        	node:=this.tail.pre
+        	this.removeNode(node)
+        	delete(this.hashMap,node.key)
+        	this.length--
+        }
+        
+        func (this *LRUCache)removeNode(d *dlinklist){
+        	d.pre.next=d.next
+        	d.next.pre=d.pre
+        }
+
+    ```
     

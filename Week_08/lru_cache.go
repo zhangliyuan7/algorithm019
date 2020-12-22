@@ -1,5 +1,6 @@
 package Week_08
 
+//146
 type LRUCache struct {
 	cap  int
 	length int
@@ -45,24 +46,36 @@ func (this *LRUCache) Put(key int, value int)  {
 		return
 	}
 	if this.cap==this.length{
-		this.popTheTail()
+		this.removeTail()
 	}
-	node:=dlinklist{pre:this.head,next:this.head.next,key:key,value:value}
+	node:=dlinklist{
+		pre:this.head,
+		next:this.head.next,
+		key:key,
+		value:value,
+	}
+	this.head.next.pre=&node
 	this.head.next=&node
 	this.hashMap[key]=&node
 	this.length++
 }
 func (this *LRUCache)moveToHead(d *dlinklist){
-	d.pre.next=d.next
+	this.removeNode(d)
 	d.next=this.head.next
+	this.head.next.pre=d
+	d.pre=this.head
 	this.head.next=d
 }
 
-func (this *LRUCache)popTheTail(){
+func (this *LRUCache)removeTail(){
 	node:=this.tail.pre
-	node.pre.next=node.next
-	node.next.pre=node.pre
+	this.removeNode(node)
 	delete(this.hashMap,node.key)
 	this.length--
+}
+
+func (this *LRUCache)removeNode(d *dlinklist){
+	d.pre.next=d.next
+	d.next.pre=d.pre
 }
 
