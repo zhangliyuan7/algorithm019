@@ -202,3 +202,87 @@
     children : i*2+1,i*2+2
     注意处理heapifydown时候的奇数 AGAIN
 ```
+##### 螺旋矩阵 54
+```
+    采用读取一行后删除该行，然后将矩阵向左旋转90度，成为新矩阵，继续读取一行，继续删除，反复循环，直至矩阵为空
+    翻转矩阵时注意，新矩阵行数=之前矩阵的列数，列数=新矩阵行数
+    初始化新矩阵：
+        if len(matrix)==0{
+    		return [][]int{}
+    	}
+    	var matrixNew =make([][]int,len(matrix[0]))
+    	for i:=range matrixNew{
+    		matrixNew[i]=make([]int, len(matrix))
+    	}
+    翻转操作：
+        n:=len(matrixNew)-1
+    	newrow:=n
+    	for n>=0{
+    		for old_row:=0;old_row<len(matrix);old_row++ {
+    			matrixNew[newrow-n][old_row] =matrix[old_row][n]
+    		}
+    		n--
+    	}
+    	return matrixNew
+```
+##### 区间合并 56
+```
+    先以左边界做排序，令左边最左的在前面
+    用left，right做当前范围的标示符
+    
+    循环数组，当新访问元素左边界大于等于当前right时，right=新元素右边界与当前right的较大者
+    当不符合上述条件时，将当前left，right添加到结果集，并将left=新元素左边界，right=新元素右边界，继续迭代
+    当循环结束后，最后将left和right添加到结果集中，否则少一次结果
+    部分代码如下：
+    ...
+    left := intervals[0][0]
+	right := intervals[0][1]
+	var r [][]int
+	for i := 1; i < len(intervals); i++ {
+		if intervals[i][0] <= right {
+			right = max(intervals[i][1], right)
+			continue
+		}
+		r = append(r, []int{left, right})
+		left = intervals[i][0]
+		right = intervals[i][1]
+	}
+	r=append(r,[]int{left,right})
+    ...
+```
+##### 翻转对 493
+```
+    分治思想
+    先写返回条件 len(nums)<=1 return 0 
+    将当前数组拆分成两个单独的数组，left right
+    分别递归计算单独数组包含的个数
+    count=reversePair(left)+reversePair(right)
+    此时的left与right已经做好了排序（递归函数统计完个数，最后归并排序其数组）
+    类似归并合并的方式，比较两个数组合并时产生的count个数
+    for l<left&&r<right{
+        因为有序,当left的大于right*2时，left中比当前元素大的都比这个right*2大，所以count+=left.len()-l
+        if left[l]>right[r]*2{
+            count+=left.len()-l
+            r++
+        }else{
+            l++
+        }
+    }
+    最后做一次归并排序
+    在原数组上排序，原地摆尾
+    n:=len(nums)
+    p1,p2:=0,0 
+    for i:=0;i<n;i++{
+        //这个if 的条件需要注意顺序，p2==len(right)时，即right先比left读完
+        所以此时只添加left的值，注意"或"条件的左右两边顺序，一定要先判断p2，防止最后一个值和left比较而走else
+        if p1<len(left)&&(p2==len(right)||left(p1)<right[p2])){ 
+            nums[i]=left[p1]
+            p1++
+        }else{
+            nums[i]=right[p2]
+            p2++
+        }
+    }
+    return count 
+```
+##### 
