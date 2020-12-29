@@ -1,7 +1,5 @@
 package Week_06
 
-
-
 // 动态规划 只要往前累计比当前大，那么把之前的和加到当前来
 func MaxSubArray(nums []int) int {
 	var max int = nums[0]

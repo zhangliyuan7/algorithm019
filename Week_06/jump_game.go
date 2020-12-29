@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-/// hen man
+/// hen man 45
 func Jump(nums []int) int {
 	var dp = make([]int,len(nums))
 	dp[0]=0
