@@ -111,3 +111,95 @@
         	return maxprofit
         }
 ```
+##### 字符串距离，相似度类问题
+    ```
+        dp[word1][word2]+二维Table找规律，可破！
+    ```
+    
+##### 回文子串  5
+```
+    1 动态递推，规则理解了，但是感觉代价很大啊，想的比较费劲,中心扩散更好理解且空间复杂度更低
+    2 中心扩散法
+        回文串有两种
+            1 一种是奇数长度字符串，中心字母只有一个
+            2 另外一种就是偶数长度字符串，所有字母都成对出现
+        中心扩散就是同时 以每个字母作为奇数字符串中心点 ，以每个字符相邻字符作为偶数回文字符串中心点 
+        遍历向外扩散， 不断找到最长的，赋值给结果左右边界
+        最终返回string[left,right+1]
+        注意扩散函数
+        func extend(s ,left,right)(int,int){
+            for ;i>=0&&j<=len(s)-1&&s[i]==s[j];left,right=left-1,righ1+1{}
+            //因为循环终止条件为越界，所以缩回一步方为合法值
+            return left+1,right-1
+        }    
+```
+##### 反转字符串II 541 
+```
+    循环 ，每次步数为2k，每次反转k个字母 
+    主要注意边界
+        边界一：
+            mid(i+k)大于字符串长度时 全部反转 reverse(s[left:]),break loops
+            right(2k+i)大于字符串长度时，使其为 right=len(s) 
+        设置left，mid ,right
+    
+        for i:=0;i<len(s);i+=2*k{ 
+            left=i mid=i+k right=i+2*k
+            result += reverse(s[left:mid])+s[mid:right]
+        }
+        return result 
+```
+##### Atoi 8 
+```
+    方法1 多条件判断
+        1 先去除左右space 如果去除后 s为空 返回0
+        2 判断首位 
+            switch case 
+            首位"+"/"-" sign=1/-1 abs = s[1:]
+            首位数字  sign=1 abs=s
+            其他 返回空
+            循环此时的abs 截断非法部分，只取合法部分
+                for i:=0;i<len(s);i++{
+                    if s[i]<'0'||s[i]>'9'{
+                        abs=abs[:i]
+                        break
+                    }
+                }
+            进行转换  // r的计算必须放在前面，否则会有判断不到的情况
+                for i:=0;i<len(s);i++{
+                    r=r*10+(s[i]-'0')
+                    if r>maxint32&&sign==1{return max}
+                    if sign==-1 &&sign*r<minint32{return min}
+                }
+                return sign*r
+```       
+##### 正则表达式匹配 10 
+```
+    方法1 ：递归  （可记忆化） 较好理解
+    func isMatch(s string, p string) bool {
+    	//这个地方注意，不能写成
+    	//if len(p)==0&&len(s)!=0{
+    	//	return false 
+    	//}
+    	// 因为会忽略一个true的情况，即s也为0 ，这时，后续逻辑会将firstmatch设置为false，所以整个结果会错误
+    	
+    	if len(p)==0{
+    		return len(s)==0
+    	}
+    	firstMatch:=false
+    	// 一定要判断s长度，避免panic ，判断s的字符是否匹配p字符或者'.'
+    	if len(s)!=0&&(s[0]==p[0]||p[0]=='.'){
+    		firstMatch=true
+    	}
+    	// *号情况有两种 ，一种是p的 'n*'中的n出现零次，另外就是出现1-n次
+    	// 出现0次的结果 即将p的'n*'去掉，继续匹配s当前字符  s,p[2:]  注意p的长度判断，防止panic
+    	// >0次结果，即去掉当前匹配到的s字符，p规则不变，匹配s后续字符 s[1:],p
+    	if len(p)>1&&p[1]=='*'{
+    		return (firstMatch&&isMatch(s[1:],p))||isMatch(s,p[2:])
+    	}
+    	return firstMatch&&isMatch(s[1:],p[1:])
+    }
+    方法2 动态规划 
+        没十分理解
+    方法3 有限状态机
+        +1 
+```  
