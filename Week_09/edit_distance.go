@@ -40,18 +40,6 @@ func minthree(a,b,c int )int{
 	return min
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 func editDistance(s1 ,s2 string )int {
 	m:=len(s1)
 	n:=len(s2)
