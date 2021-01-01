@@ -21,3 +21,10 @@ func isPowerOfTwo2(n int) bool {
 	}
 	return (n&(n-1))==0
 }
+
+func isPowerOfTwo3(n int )bool{
+	if n<=0{
+		return false
+	}
+	return (n&(n-1))==0
+}

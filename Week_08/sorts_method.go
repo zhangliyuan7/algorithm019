@@ -153,3 +153,52 @@ func (h *Heaps) push(n int) {
 	h.store = append(h.store, n)
 	h.heapifyup()
 }
+
+
+func fastSort2(nums []int ){
+	left,right:=0,len(nums)-1
+	move:=1
+	mid:=nums[left]
+	for left<right{
+		if nums[move]>mid{
+			nums[move],nums[right]=nums[right],nums[move]
+			right--
+		}else{
+			nums[left],nums[move]=nums[move],nums[left]
+			move++
+			left++
+		}
+	}
+	fastSort2(nums[:left])
+	fastSort2(nums[left+1:])
+}
+
+func recursionSort2(nums []int)[]int{
+	if len(nums)==2{
+		if nums[0]>nums[1]{
+			nums[0],nums[1]=nums[1],nums[0]
+			return nums
+		}
+	}
+	if len(nums)<=1{
+		return nums
+	}
+	mid:=len(nums)/2
+	return mergeSlice(recursionSort2(nums[:mid]),recursionSort2(nums[mid+1:]))
+}
+
+func mergeSlice(nums1 []int,nums2 []int)[]int{
+	index1:=0
+	index2:=0
+	r := make([]int,len(nums1)+len(nums2))
+	for i:=0;i<len(r);i++{
+		if index1<len(nums1)&&(index2==len(nums2)||nums1[index1]<nums2[index2]){
+			r=append(r,nums1[index1])
+			index1++
+		}else{
+			r=append(r,nums2[index2])
+			index2++
+		}
+	}
+	return r
+}
