@@ -220,3 +220,28 @@
     return for loop ,search max of dp
     //return dp[max]
 ```
+##### 滑动窗口最大值 239 
+```golang
+    复习滑动窗口一题
+    使用双端队列，删除条件是( if q.len>0&&q[0]==n ) 删除nums[i-k+1]
+    i <k-1 {
+        q.push(nums[i])    
+    }else{
+        q.push(nums[i])
+        r=append(r,q.top)
+        q.pop(nums[i-k+1])
+    }
+    push:
+        if len(q)==0{
+            q=append(q,n)
+        }else{
+            for q.len!=0&&q.[q.len-1] < n{
+                q=q[:q.len-1]
+            }
+            q=append(q,n)
+        }
+    pop:
+        if q.len!=0&&q[0]==n{
+           q=q[1:]
+        }
+```
