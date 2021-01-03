@@ -245,3 +245,68 @@
            q=q[1:]
         }
 ```
+##### 最大子矩阵 面试题17.24
+```
+    关键在于如何转化为一维，求最大连续子序列的和 
+    其实就是将子矩阵 上下边界圈定，然后利用一个数组 ，存储这个圈定范围内的 每列的和
+    再对这个圈定数组，求其最大连续子序列的和 
+    上下固定之后 ，整个数组包含了整个行的每一列的值，所以 ，连续子序列求出的即是左右边界 
+    加上循环的上下边界 ，便可以得到整个矩阵的上下左右边界 
+        遍历矩阵行，i 从第1行- 第matrix size行 
+        子循环 遍历矩阵行，从外层循环行数 i ，到matrix size
+        每次形成一个列和的数组，需要每次行变换时缩减 
+        对这个数组进行求最大连续子序列和，一维动态规划 
+        求出与max对比 ，大 即记录    
+     
+    另外注意判断一维连续最大时，要利用tmp更新begin 
+     
+    func GetMaxMatrix(matrix [][]int) []int {
+    	res:=make([]int,4)
+    	m:=len(matrix)
+    	n:=len(matrix[0])
+    	total:=math.MinInt32
+    	for i:=0;i<m;i++{
+    		for j:=i;j<m;j++{
+    			var sumColumn = make([]int,n)
+    			for k:=0;k<n;k++{
+    				for u:=i;u<=j;u++{
+    					sumColumn[k]+=matrix[u][k]
+    				}
+    			}
+    			l,r,max:=searchMaxSubsequence(sumColumn)
+    			//fmt.Println(l,r,max)
+    
+    			if max>total{
+    				total=max
+    				res=[]int{i,l,j,r}
+    				//fmt.Println("res:",res)
+    			}
+    		}
+    	}
+    	return res
+    }
+    func searchMaxSubsequence(sc []int )(left int,right int,max int ){
+    	left,right=0,0
+    	tmpbegin:=left
+    	max=sc[0]
+    	dpi:=sc[0]
+    	for i:=1;i<len(sc);i++{
+    		if dpi>0{
+    			dpi+=sc[i]
+    		}else{
+    			dpi=sc[i]
+    			tmpbegin=i
+    		}
+    		if dpi>max{
+    			max=dpi
+    			left=tmpbegin
+    			right=i
+    		}
+    	}
+    	return
+    }
+    划定上下边界，在利用连续最大子序和的计算方式，求出一维最大的左边界和右边界，sum 与 max比较确定是否替换结果集[top,left,bottom,right]
+    前两重循环 用来界定上下界限，第三，四个循环 用来整合column的和数组，searchMaxSubsequence就是获取左右边界了，与一维的问题完全相同，只不过将left，right，max也要返回
+    比较，确定最大的边界集合，返回即可
+
+``` 
