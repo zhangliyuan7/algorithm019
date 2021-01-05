@@ -201,10 +201,11 @@
         }
         return r 
     smart way :
+        //找出最大(n)最小(m)数字的二进制公共同位前缀，即为结果
         shift:=0
         for m<n{
-            m,n=m>>1,n>>1
-            shift++
+            m,n=m>>1,n>>1 //两者都不断右移，砍掉尾巴，直到相同
+            shift++ //移动次数
         }
-        return m<<shift
+        return m<<shift //将移动次数+当前仅剩的前缀，补齐位数
 ```
