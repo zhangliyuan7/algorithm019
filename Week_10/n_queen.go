@@ -32,8 +32,10 @@ func solve(queens []int,n,row,columns,lefts,rights int){
 		//fmt.Println(position)
 		available=available&(available-1)
 		// 返回(position-1) 的二进制包含1的个数
+		// 作为索引，因为position是最后一个1的位置（仅包含一个1 ，比如0100 ），-1（0011 ） 计算1的个数，即为其索引位置
 		column:=bits.OnesCount(uint(position-1))
 		//fmt.Println(column)
+		// 倒序索引位置
 		queens[row]=column
 		solve(queens,n,row+1,columns|position,(lefts|position)<<1,(rights|position)>>1 )
 		queens[row]=-1
