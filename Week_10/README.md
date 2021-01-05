@@ -192,7 +192,19 @@
             return r 
         }
 ```
-##### bit calculate 
-```
-    
+##### bit calculate 201 
+```golang 
+    search the intersection from range [m,n]
+    regular way :
+        for i = [m, n] {
+            r=r&i
+        }
+        return r 
+    smart way :
+        shift:=0
+        for m<n{
+            m,n=m>>1,n>>1
+            shift++
+        }
+        return m<<shift
 ```
