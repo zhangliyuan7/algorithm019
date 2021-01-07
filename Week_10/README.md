@@ -213,3 +213,26 @@
 ```
     并查集： will do it again tomorrow！
 ```
+##### 115 不同子序列 hard
+```
+    string s 的子序列中包含多少string t ，返回个数
+    外层循环t 内层循环s
+        sl = length.s
+        tl= length.t
+    dp:=make([][]int,tl+1)
+    for i:=range dp{
+        dp[i]=make([]int,sl+1)
+    }
+    for i:=range dp[0]{
+        // 空字符串是所有长度s的子序列
+        dp[0][i]=1
+    }
+    状态转移 
+       if t[i-1]=s[j-1]
+            // 
+            dp[i][j]=dp[i][j-1]+dp[i-1][j-1]
+       else 
+            dp[i][j]=dp[i][j-1]
+
+    return dp[tl][sl]
+```
