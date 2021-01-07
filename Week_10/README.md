@@ -211,7 +211,74 @@
 ```
 ##### 399 除法求值
 ```
-    并查集： will do it again tomorrow！
+    并查集 
+    初始化 ：
+        func newbcj(l int )*bcj{
+        	bcj:=&bcj{
+        		make([]int,l),
+        		make([]float64,l),
+        	}
+        	for i:=range bcj.fa{
+        		bcj.fa[i]=i
+                //每个字符都是一个独立单元，其初始权重为1 
+        		bcj.w[i]=1
+        	}
+        	return bcj
+        }
+
+    找father：
+        func (b *bcj)findParents(x int )int {
+        	if b.fa[x]!=x{
+        		ff:=b.findParents(b.fa[x])
+                //权重累乘，上叠
+        		b.w[x]*=b.w[b.fa[x]]
+        		b.fa[x]=ff
+        	}
+        	return b.fa[x]
+        }
+
+    union：（from,to ,value）
+        func (b *bcj)union(from,to int,value float64 ){
+        	ff:=b.findParents(from)
+        	ft:=b.findParents(to)
+            //权重公式 
+        	b.w[ff]=value*b.w[to]/b.w[from]
+            //ff 's father is ft
+        	b.fa[ff]=ft
+        }
+    search result :
+            // 组成每个字符的ID map
+        	id :=make(map[string]int)
+        	for _,eq:=range equations{
+        		fir,sec:=eq[0],eq[1]
+        		if _,has:=id[fir];!has{
+        			id[fir]=len(id)
+        		}
+        		if _,has:=id[sec];!has{
+        			id[sec]=len(id)
+        		}
+        	}
+            // 初始化并查集
+        	bcj:=newbcj(len(id)) 
+            // 并查集合并点
+        	for i,eq:=range equations{
+        		bcj.union(id[eq[0]],id[eq[1]],values[i])
+        	}
+        	ans:=make([]float64,len(queries))
+            // 计算结果
+        	for i,q:=range queries{
+        		start,hasX:=id[q[0]]
+        		end,hasY:=id[q[1]]
+                // 存在且在同一域
+        		if hasX && hasY&& bcj.findParents(start) == bcj.findParents(end){
+                    // 做除法
+        			ans[i]=bcj.w[start]/bcj.w[end]
+        		}else{
+                    // 无关者
+        			ans[i]=-1
+        		}
+        	}
+        	return ans
 ```
 ##### 115 不同子序列 hard
 ```
