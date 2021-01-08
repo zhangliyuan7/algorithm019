@@ -303,3 +303,45 @@
 
     return dp[tl][sl]
 ```
+##### 旋转数组 189 
+```
+    移动k步 即等于 移动 k%len(nums)步
+    方法一： 原地，但是时间复杂度很高
+        一个函数用来向右循环一步 
+        移动k次即可
+        代码如下：
+            // stupid way ，just roll
+            func Rotate(nums []int, k int)  {
+            	m:=len(nums)
+            	k=k%m
+            	for ;k!=0;k--{
+            		Roll(nums)
+            	}
+            }
+            
+            func Roll(nums []int ){
+            	tmp:=nums[0]
+            	for i:=1;i<len(nums);i++{
+            		nums[i],tmp=tmp,nums[i]
+            	}
+            	nums[0]=tmp
+            }
+    方法二 翻转三次即可 效率较高，速度很快
+        定义翻转函数，用来将长度为n的数组 整体reverse 
+        func Reverse(nums []int){
+        	m:=len(nums)
+        	for i:=0;i<m/2;i++{
+        		nums[i],nums[m-i-1]=nums[m-i-1],nums[i]
+        	}
+        }
+        k仍然等于 k%len(nums)
+        先整体翻转，然后再将k前面的部分和k后面的部分分别翻转
+        code : 
+            func RotateSmart(nums []int ,k int ){
+            	m:=len(nums)
+            	k=k%m
+            	Reverse(nums)
+            	Reverse(nums[:k])
+            	Reverse(nums[k:])
+            }
+```
