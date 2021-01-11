@@ -303,3 +303,131 @@
 
     return dp[tl][sl]
 ```
+##### 旋转数组 189 
+```
+    移动k步 即等于 移动 k%len(nums)步
+    方法一： 原地，但是时间复杂度很高
+        一个函数用来向右循环一步 
+        移动k次即可
+        代码如下：
+            // stupid way ，just roll
+            func Rotate(nums []int, k int)  {
+            	m:=len(nums)
+            	k=k%m
+            	for ;k!=0;k--{
+            		Roll(nums)
+            	}
+            }
+            
+            func Roll(nums []int ){
+            	tmp:=nums[0]
+            	for i:=1;i<len(nums);i++{
+            		nums[i],tmp=tmp,nums[i]
+            	}
+            	nums[0]=tmp
+            }
+    方法二 翻转三次即可 效率较高，速度很快
+        定义翻转函数，用来将长度为n的数组 整体reverse 
+        func Reverse(nums []int){
+        	m:=len(nums)
+        	for i:=0;i<m/2;i++{
+        		nums[i],nums[m-i-1]=nums[m-i-1],nums[i]
+        	}
+        }
+        k仍然等于 k%len(nums)
+        先整体翻转，然后再将k前面的部分和k后面的部分分别翻转
+        code : 
+            func RotateSmart(nums []int ,k int ){
+            	m:=len(nums)
+            	k=k%m
+            	Reverse(nums)
+            	Reverse(nums[:k])
+            	Reverse(nums[k:])
+            }
+```
+##### 解码 91 
+```
+    对于0位置 分情况判断 
+    当 s[i]=='0' 如果他的前一位是1 或者2 即合法 ，如果不是，非法，返回0 
+        dp[i+1](即绑定到一起之后的那个位置)=dp[i-1](即1或者2 的位置的个数)
+    当 s[i] !='0' 如果前一项为1或者2 ，且当前项小于6 即两者合并是合法的 
+        那么dp[i+1] 即 其后一项，由当前项自身与上一项的和 相加而成 
+        即 dp[i+1]=dp[i-1]+dp[i]
+        如果不是，即不可绑定两位到一起，那么只返回单一项结果即可 
+        即 dp[i+1]=dp[i] (dp[i]由上边类似的逻辑生成)
+
+    摘抄：
+        solution 1 ：
+            // dp
+            // 存储中间态：dp[i]为s[0...i]的译码总数
+            // 递推公式：
+            // 当s[i] == '0', 若s[i-1]=='1'||'2', 则 dp[i] = dp[i-2]
+            // 当s[i-1] == '1', dp[i] = dp[i-1] + dp[i-2] //相当于 跨一步 + 跨两步
+            // 当s[i-1] == '2', 若s[i]<='6', dp[i] = dp[i-1] + dp[i-2], 否则dp[i]=dp[i-1]
+            
+    代码如下：
+    //A-Z
+    func numDecodings(s string) int {
+    	if len(s)==0||s[0]=='0'{
+    		return 0
+    	}
+    	dp:=make([]int,len(s)+1)
+    	dp[0]=1
+    	dp[1]=1
+    	for i:=2;i<len(s);i++{
+    		if s[i]=='0'{
+    			if s[i-1]=='1'||s[i-1]=='2'{
+    				dp[i+1]=dp[i-1]
+    			}else{
+    				return 0
+    			}
+    		}else{
+    			if s[i-1]=='1'||(s[i-1]=='2'&&s[i]<='6'){
+    				dp[i+1]=dp[i-1]+dp[i]
+    			}else{
+    				dp[i+1]=dp[i]
+    			}
+    		}
+    	}
+    	return dp[len(s)]
+    }
+
+    解法2：
+    dp[i] 表示 [0, i] 所有可能的组合数量。
+
+    分两种情况考虑：
+
+    单个字符，如果不是0，则可以匹配，可以把前面的子串加上当前字符。组合数量等于 dp[i - 1]
+    当前字符加前一个字符，如果大于等于10且小于等于26，则可以匹配。组合数量等于 dp[i - 2]
+
+    这个比较符合我的想法 ，good ！！！！
+    func numDecodings(s string) int {
+        if len(s) == 0 {
+            return 0
+        }
+        if s[0] == '0' {
+            return 0
+        }
+        for i, v := range s {
+            if v == '0' {
+                if s[i - 1] != '1' && s[i - 1] != '2' {
+                    return 0
+                }
+            }
+        }
+        n := len(s)
+        dp := make([]int, n + 1)
+        dp[0] = 1
+        dp[1] = 1
+        for i := 2; i <= n; i++ {
+            if (s[i - 1] != '0') {
+                dp[i] = dp[i - 1]
+            }
+            if s[i - 2:i] <= "26" && s[i - 2:i] >= "10" {
+                dp[i] = dp[i] + dp[i - 2]
+            }
+        }
+        return dp[n]
+    }
+    
+```
