@@ -1,7 +1,7 @@
 package Repeat_01
 
 // 959
-// 生成矩阵思考较为困难，其余dfs简单粗暴的修改
+//
 type unionFind struct {
 	parent, size []int
 	setCount     int // 当前连通分量数目
@@ -37,30 +37,68 @@ func (uf *unionFind) union(x, y int) {
 	uf.setCount--
 }
 
+//func regionsBySlashesBcj(grid []string) int {
+	//n := len(grid)
+	//uf := newUnionFindx(4 * n * n)
+	//for i := 0; i < n; i++ {
+	//	for j := 0; j < n; j++ {
+	//		idx := i*n + j
+	//		if i < n-1 {
+	//			bottom := idx + n
+	//			uf.union(idx*4+2, bottom*4)
+	//		}
+	//		if j < n-1 {
+	//			right := idx + 1
+	//			uf.union(idx*4+1, right*4+3)
+	//		}
+	//		if grid[i][j] == '/' {
+	//			uf.union(idx*4, idx*4+3)
+	//			uf.union(idx*4+1, idx*4+2)
+	//		} else if grid[i][j] == '\\' {
+	//			uf.union(idx*4, idx*4+1)
+	//			uf.union(idx*4+2, idx*4+3)
+	//		} else {
+	//			uf.union(idx*4, idx*4+1)
+	//			uf.union(idx*4+1, idx*4+2)
+	//			uf.union(idx*4+2, idx*4+3)
+	//		}
+	//	}
+	//}
+	//return uf.setCount
+//}
+
+//    0
+//3       1  => / {0,3}{1,2}  \\ {2,3}{0,1}  ' ' {0,1,2,3}
+//    2
 func regionsBySlashesBcj(grid []string) int {
-	n := len(grid)
-	uf := newUnionFindx(4 * n * n)
-	for i := 0; i < n; i++ {
-		for j := 0; j < n; j++ {
-			idx := i*n + j
-			if i < n-1 {
-				bottom := idx + n
-				uf.union(idx*4+2, bottom*4)
+	l:=len(grid)
+	uf:=newUnionFindx(4*l*l)
+	for i:=0;i<len(grid);i++{
+		for j:=0;j<len(grid[0]);j++{
+			idx := i*l + j
+			if i<l-1{
+				btm:=idx+l
+				// btm = (i+1)*l +j
+				uf.union(idx*4+2,btm*4)
+				//uf.union(idx*4+2,btm*4+0)
 			}
-			if j < n-1 {
-				right := idx + 1
-				uf.union(idx*4+1, right*4+3)
+			if j<l-1{
+				right:=idx+1
+				uf.union(idx*4+1,right*4+3)
 			}
-			if grid[i][j] == '/' {
-				uf.union(idx*4, idx*4+3)
-				uf.union(idx*4+1, idx*4+2)
-			} else if grid[i][j] == '\\' {
-				uf.union(idx*4, idx*4+1)
-				uf.union(idx*4+2, idx*4+3)
-			} else {
-				uf.union(idx*4, idx*4+1)
-				uf.union(idx*4+1, idx*4+2)
-				uf.union(idx*4+2, idx*4+3)
+			if grid[i][j]==' '{
+				uf.union(idx*4,idx*4+1)
+				uf.union(idx*4+1,idx*4+2)
+				uf.union(idx*4+3,idx*4+2)
+			}
+			if grid[i][j]=='\\'{
+				uf.union(idx*4,idx*4+1)
+				uf.union(idx*4+2,idx*4+3)
+			}
+			if grid[i][j]=='/'{
+				uf.union(idx*4,idx*4+3)
+				uf.union(idx*4+1,idx*4+2)
+
 			}
 		}
 	}
