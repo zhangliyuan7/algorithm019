@@ -21,6 +21,75 @@
     ```
 
 ##### 堆
+    
+    // 实现官方接口heap，默认小顶堆
+    Push
+    push方法，其官方注释要求实现的功能写的很简单，事实上也确实很简单。
+    
+    将x添加在数组最后即可，所以实现代码如下：
+    
+    func (h *IntHeap) Push(x interface{}) {
+    	// Push and Pop use pointer receivers because they modify the slice's length,
+    	// not just its contents.
+    	*h = append(*h, x.(int))
+    }
+  
+    你可能会疑惑，如果只是实现这样得Push函数，并没有保证堆的性质啊，你只是把这个数放到了数组最后。实际上这是官方为了避免我们写太多代码而做的设计，我们在push时实际上是调用heap.Push(h, 3) ,这是在heap.go中的一个函数，其具体实现为：
+    
+    func Push(h Interface, x interface{}) {
+    	h.Push(x)
+    	up(h, h.Len()-1)
+    }
+    func up(h Interface, j int) {
+    	for {
+    		i := (j - 1) / 2 // parent
+    		if i == j || !h.Less(j, i) {
+    			break
+    		}
+    		h.Swap(i, j)
+    		j = i
+    	}
+    }
+  
+    上浮的操作由官方函数up完成。
+    
+    Pop
+    func (h *IntHeap) Pop() interface{} {
+    	old := *h
+    	n := len(old)
+    	x := old[n-1]
+    	*h = old[0 : n-1]
+    	return x
+    }
+   
+    由官方注释可知，我们只需要将切片变为其[0:n-1]即可，那么如何保证获取的是最小/最大值呢，查看heap.go中Pop函数可知：
+    
+    func Pop(h Interface) interface{} {
+    	n := h.Len() - 1
+    	h.Swap(0, n)
+    	down(h, 0, n)
+    	return h.Pop()
+    }
+    func down(h Interface, i0, n int) bool {
+    	i := i0
+    	for {
+    		j1 := 2*i + 1
+    		if j1 >= n || j1 < 0 { // j1 < 0 after int overflow
+    			break
+    		}
+    		j := j1 // left child
+    		if j2 := j1 + 1; j2 < n && h.Less(j2, j1) {
+    			j = j2 // = 2*i + 2  // right child
+    		}
+    		if !h.Less(j, i) {
+    			break
+    		}
+    		h.Swap(i, j)
+    		i = j
+    	}
+    	return i > i0
+    }
+    // 
     包含多种实现，常见面试实现为二叉树或n叉树堆，查询O(1)，其他O(log(n))，时间简单，但工程上应用少，性能一般
     比较牛叉的是斐波那契堆和严格的斐波那契堆，除删除外，均可达到O(1),工程上较多,实现较复杂
     |Operation|find-max|delete-max|insert|increase-key|meld|

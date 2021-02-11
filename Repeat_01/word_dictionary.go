@@ -9,7 +9,7 @@ type WordDictionary struct {
 
 
 /** Initialize your data structure here. */
-func Constructor() WordDictionary {
+func ConstructorWD() WordDictionary {
 	wd:=WordDictionary{}
 	wd.next =[26]*WordDictionary{}
 	return wd
