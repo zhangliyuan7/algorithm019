@@ -1,1 +1,32 @@
-G20200343160099
+template slidingWindow
+
+func slidingWindowTemplate(t string,s string ){
+    need=map[string,int ]
+    window=map[string,int]
+    for c range t{
+        need[c]++
+    }
+    left,right:=0,0
+    ln:=len(n)
+    valid:=0
+    for right<ln{
+        c:=s[right]
+        right++
+        //if need.count(c){
+        //  window(c)++
+        //  if window(c)==need[c]{
+        //       valid++
+        //    }
+        //}
+        processing ...
+        // here debug window left right
+        for windows need shrink(valid == need.size){
+            d:=s[left]
+            //if window[d]==need[d]{
+            //    valid --
+            //}
+            left++
+            processing ...
+        }
+    }
+}
