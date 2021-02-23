@@ -21,6 +21,7 @@ func maxSatisfied(customers []int, grumpy []int, X int) int {
 				return maxSatisfied
 			}
 		}
+		//nowSatisfied=nowSatisfied-customers[l]*grumpy[l]+customers[r]*grumpy[r]
 		if grumpy[l]==1{
 			nowSatisfied=nowSatisfied-customers[l]
 		}
