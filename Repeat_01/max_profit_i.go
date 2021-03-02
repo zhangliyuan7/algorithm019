@@ -45,9 +45,9 @@ func maxProfitII(prices []int)int{
 }
 // 123
 func maxProfitIII(prices []int)int {
-		ln:=len(prices)
-		dp:=make([][][2]int,ln)
-		for i:=0;i<ln;i++{
+	ln:=len(prices)
+	dp:=make([][][2]int,ln)
+	for i:=0;i<ln;i++{
 		dp[i]=make([][2]int,3)
 	}
 	// 初始化
@@ -68,4 +68,45 @@ func maxProfitIII(prices []int)int {
 	return dp[ln-1][2][0]
 }
 
-//
+//188
+func maxProfitIV(k int, prices []int) int {
+	ln:=len(prices)
+	// 大于一半 即不限制次数
+	if k>ln/2{
+		return maxProfitInf(prices)
+	}
+	dp:=make([][][2]int,ln)
+	for i:=range dp{
+		dp[i]=make([][2]int,k+1)
+	}
+	for i:=0;i<k+1;i++{
+		dp[0][i][1]=-prices[0]
+		dp[0][i][0]=0
+	}
+	for i:=1;i<ln;i++{
+		// 因为j从1开始(为了递推公式)，所以k次为<=k
+		for j:=1;j<k+1;j++{
+			// 手中无股票 可以来自第k次买入，抛售掉，或者之前就抛售掉了或者从未持有
+			dp[i][j][0]=max(dp[i-1][j][1]+prices[i],dp[i-1][j][0])
+			// 手中有股票，则是k-1次的手中没有股票的情况，或者之前一直持有，当前次数第k次
+			// 如果当前持有股票来自于没有股票的情况，那么一定是[i-1][k-1][0]的情况
+			dp[i][j][1]=max(dp[i-1][j-1][0]-prices[i],dp[i-1][j][1])
+		}
+	}
+	return dp[ln-1][k][0]
+}
+
+
+func maxProfitInf(prices []int) int {
+	if len(prices)<2{
+		return 0
+	}
+	sum:=0
+	plen:=len(prices)
+	for i:=1;i<plen;i++{
+		if prices[i]-prices[i-1]>0{
+			sum+=prices[i]-prices[i-1]
+		}
+	}
+	return sum
+}
