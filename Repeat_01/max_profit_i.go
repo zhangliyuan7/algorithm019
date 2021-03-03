@@ -110,3 +110,43 @@ func maxProfitInf(prices []int) int {
 	}
 	return sum
 }
+
+//309
+func maxProfitsV(prices []int)int{
+	ln:=len(prices)
+	dp:=make([][2]int,ln)
+	if ln<=1{
+		return 0
+	}
+	if ln==2{
+		if prices[1]-prices[0]>0{
+			return prices[1]-prices[0]
+		}
+		return 0
+	}
+
+	dp[0][0]=0
+	dp[0][1]=-prices[0]
+	dp[1][0]=max(dp[0][0],prices[1]-prices[0])
+	dp[1][1]=max(dp[0][1],-prices[1])
+	dp[2][0]=max(dp[1][0],dp[0][1]+prices[2])
+	dp[2][1]=max(dp[1][1],dp[0][0]-prices[2])
+	for i:=2;i<ln;i++{
+		dp[i][0]=max(dp[i-1][0],dp[i-1][1]+prices[i])
+		dp[i][1]=max(dp[i-1][1],dp[i-2][0]-prices[i])
+	}
+	return dp[ln-1][0]
+}
+
+// 714
+func maxProfitVI(prices []int, fee int) int {
+	ln:=len(prices)
+	dp:=make([][2]int,ln)
+	dp[0][0]=0
+	dp[0][1]=-prices[0]
+	for i:=1;i<ln;i++{
+		dp[i][0]=max(dp[i-1][0],dp[i-1][1]-fee+prices[i])
+		dp[i][1]=max(dp[i-1][1],dp[i][0]-prices[i])
+	}
+	return dp[ln-1][0]
+}

@@ -48,3 +48,13 @@ func countBitsB(num int) []int {
 	return dp
 }
 
+
+func countBitsI(num int) []int {
+	dp:=make([]int,num+1)
+	for i:=1;i<=num;i++{
+		// dp[i>>1]==dp[i/2]
+		// i&1==dp[i%2]I
+		dp[i]=dp[i>>1]+i&1
+	}
+	return dp
+}
