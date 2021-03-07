@@ -43,3 +43,41 @@ func isValidHW(s string)bool{
 	}
 	return true
 }
+
+
+
+
+func partitionII(s string) [][]string {
+	r:=[][]string{}
+	tmp:=[]string{}
+	huisu(s,0,tmp,&r)
+	return r
+}
+
+func huisu(s string ,index int ,tmp []string ,result *[][]string){
+	if index==len(s){
+		copyTmp:=make([]string,len(tmp))
+		copy(copyTmp,tmp)
+		*result=append(*result,copyTmp)
+		return
+	}
+	for i:=index;i<len(s);i++{
+		if valid(s[index:i+1]){
+			tmp=append(tmp,s[index:i+1])
+			huisu(s,i+1,tmp,result)
+			tmp=tmp[:len(tmp)-1]
+		}
+	}
+}
+
+func valid(s string)bool{
+	l,r:=0,len(s)-1
+	for l<=r{
+		if s[l]!=s[r]{
+			return false
+		}
+		l++
+		r--
+	}
+	return true
+}
