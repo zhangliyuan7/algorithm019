@@ -50,3 +50,37 @@ func minCut(s string) int {
 	}
 	return f[ln-1]
 }
+
+func minCutII(s string) int {
+	if len(s)<1{
+		return 0
+	}
+	ln:=len(s)
+	g:=make([][]bool,ln)
+	for i:=range g{
+		g[i]=make([]bool,ln)
+	}
+	//1 all prom
+	for i:=ln-1;i>=0;i--{
+		for j:=i+1;j<ln;j++{
+			g[i][j]=s[i]==s[j]&&g[i+1][j-1]
+		}
+	}
+	f:=make([]int,ln)
+	for i:=range f{
+		if g[0][i]{
+			f[i]=0
+			continue
+		}
+		// init f[i]
+		f[i]=i
+		// for i for j-i dp
+		for j:=0;j<i;j++{
+			// j+1 - i
+			if g[j+1][i]{
+				f[i]=min(f[i],f[j]+1)
+			}
+		}
+	}
+	return f[ln-1]
+}
