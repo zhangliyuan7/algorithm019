@@ -43,3 +43,21 @@ func findMinI(nums []int) int {
 	}
 	return nums[l]
 }
+// has duplicate num
+func findMinII(nums []int) int {
+	l,r:=0,len(nums)-1
+	if r==0{
+		return nums[r]
+	}
+	for l<r {
+			mid := l + (r-l)/2
+			if nums[mid]>nums[r]{
+				l=mid+1
+			}else if nums[mid]<nums[r]{
+				r=mid
+			}else{ //重复元素判断
+				r--
+			}
+		}
+	return nums[l]
+}
