@@ -67,7 +67,6 @@ func numIslandsdfs(grid [][]byte) int {
 		for j:=0;j<col;j++{
 			if grid[i][j]=='1'{
 				count+=1
-
 				visit(i,j,&grid)
 			}
 		}

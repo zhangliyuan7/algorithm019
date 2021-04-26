@@ -159,7 +159,7 @@ func longestCommonSubsequence(ta,tb string )int {
 			if ta[i-1] == tb[j-1]{
 				dp[i][j]=dp[i-1][j-1]+1
 			}else{
-				dp[i][j]=maxSeq(dp[i-1][j],dp[i][j-1])+1
+				dp[i][j]=maxSeq(dp[i-1][j],dp[i][j-1])
 			}
 		}
 	}

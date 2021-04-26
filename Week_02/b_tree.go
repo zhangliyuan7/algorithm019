@@ -60,7 +60,7 @@ func inorderTraversal1(root *Node) []int {
 	var s []*Node
 	var p = root
 	for p!=nil||len(s)!=0{
-		for p!=nil  {
+		for p!=nil {
 			s=append(s,p)
 			p=p.L
 		}

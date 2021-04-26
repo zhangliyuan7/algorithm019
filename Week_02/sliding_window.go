@@ -17,7 +17,6 @@ func maxSlidingWindowC(nums []int, k int) []int {
 		}
 	}
 	return ret
-
 }
 
 // "单调队列" 结构用双端队列

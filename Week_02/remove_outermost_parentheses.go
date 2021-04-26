@@ -34,7 +34,7 @@ func removeOuterParentheses(S string) string {
 
 //不记录要删除index，用strings.builder直接添加符合条件的元素到结果集
 //good , 0ms
-func removeOuterParenthesesBeter(S string) string {
+func removeOuterParenthesesBetter(S string) string {
 	var s = []string{}
 	var result strings.Builder
 	for _,c:=range S{

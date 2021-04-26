@@ -26,7 +26,7 @@ func mySqrtErfen(x int) int {
 	l, r := 0, x
 	for l <= r {
 		mid := l + (r - l) / 2
-		if mid*mid==x{
+		if mid * mid == x {
 			return mid
 		}
 		if mid * mid < x {

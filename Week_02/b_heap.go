@@ -6,9 +6,11 @@ type bHeap struct{
 	tree []int
 	size int
 }
+
 func (bh *bHeap)Tree(){
 	fmt.Println(bh.tree)
 }
+
 func (bh *bHeap)Top()int{
 	return bh.tree[0]
 }
